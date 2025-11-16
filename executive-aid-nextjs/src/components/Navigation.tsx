@@ -28,7 +28,7 @@ export default function Navigation({ isScrolled, currentPage, contactLink = "/#c
     { href: '/services', label: 'SERVICES' },
     { href: '/web-solutions', label: ' PORTFOLIO' },
     { href: '/credentials', label: ' CREDENTIALS' },
-    { href: '/razorbill', label: ' RAZORBILL' },
+    { href: 'https://razorbilltechnologies.com/', label: ' RAZORBILL', external: true },
   ];
 
   return (
@@ -60,17 +60,35 @@ export default function Navigation({ isScrolled, currentPage, contactLink = "/#c
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex space-x-8">
-            {navItems.map((item) => (
-              <Link 
-                key={item.href}
-                href={item.href} 
-                className={`text-sm md:text-base font-bold hover:text-indigo-900 transition ${
-                  currentPage === item.href ? 'text-indigo-900' : 'text-gray-900'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isExternal = item.external || item.href.startsWith('http');
+              if (isExternal) {
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`text-sm md:text-base font-bold hover:text-indigo-900 transition ${
+                      currentPage === item.href ? 'text-indigo-900' : 'text-gray-900'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
+              return (
+                <Link 
+                  key={item.href}
+                  href={item.href} 
+                  className={`text-sm md:text-base font-bold hover:text-indigo-900 transition ${
+                    currentPage === item.href ? 'text-indigo-900' : 'text-gray-900'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Desktop Contact Button */}
@@ -100,18 +118,37 @@ export default function Navigation({ isScrolled, currentPage, contactLink = "/#c
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
             <div className="pt-4 space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={closeMobileMenu}
-                  className={`block px-3 py-2 text-base font-bold hover:text-indigo-900 transition ${
-                    currentPage === item.href ? 'text-indigo-900' : 'text-gray-900'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const isExternal = item.external || item.href.startsWith('http');
+                if (isExternal) {
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={closeMobileMenu}
+                      className={`block px-3 py-2 text-base font-bold hover:text-indigo-900 transition ${
+                        currentPage === item.href ? 'text-indigo-900' : 'text-gray-900'
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                    className={`block px-3 py-2 text-base font-bold hover:text-indigo-900 transition ${
+                      currentPage === item.href ? 'text-indigo-900' : 'text-gray-900'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
               <Link
                 href={contactLink}
                 onClick={closeMobileMenu}
