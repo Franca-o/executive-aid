@@ -44,7 +44,7 @@ const ContactForm = () => {
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200">
-      <h3 className="text-2xl font-bold text-gray-900 mb-6">Get Your Custom Quote</h3>
+      <h3 className="text-2xl font-bold text-gray-900 mb-6">Hire a Virtual Assistant Today</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
@@ -83,13 +83,13 @@ const ContactForm = () => {
             className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           >
-            <option value="">Select Project Type</option>
-            <option value="crm-system">CRM System</option>
-            <option value="inventory-management">Inventory Management</option>
-            <option value="ecommerce-platform">E-commerce Platform</option>
-            <option value="custom-web-app">Custom Web Application</option>
-            <option value="business-website">Business Website</option>
-            <option value="other">Other</option>
+            <option value="">Select Service Type</option>
+            <option value="financial-management">Financial Management</option>
+              <option value="custom-web-app">Professional Website Development</option>
+              <option value="project-management">Project management</option>
+              <option value="research-analytics">Research and Data Analytics</option>
+              <option value="digital-marketing">Digital marketing</option>
+              <option value="admin-assistance">Administrative assistance</option>
           </select>
         </div>
         <textarea
@@ -1869,7 +1869,7 @@ export default function WebSolutionsClient() {
                 <li><Link href="/web-solutions#research-and-data-analytics" className="hover:text-white transition"> Research and Data Analytics</Link></li>
                 <li><Link href="/web-solutions#calendar-management" className="hover:text-white transition"> Administrative Assistance</Link></li>
                 <li><Link href="/web-solutions#digital-marketing-campaign" className="hover:text-white transition"> Digital Marketing</Link></li>
-                <li><Link href="/web-solutions" className="hover:text-white transition">Razorbill Technologies (Custom Web Solutions)</Link></li>
+                <li><Link href="https://razorbilltechnologies.com/" className="hover:text-white transition">Razorbill Technologies (Custom Web Solutions)</Link></li>
              
               </ul>
             </div>
@@ -1878,11 +1878,7 @@ export default function WebSolutionsClient() {
               <h4 className="font-bold mb-4">Resources & Policies</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/about#faq" className="hover:text-white transition">FAQ</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Blogs/Insights</Link></li>
                 <li><Link href="/policies/privacy-policy" className="hover:text-white transition">Privacy Policy</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Data Protection Policy</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Terms & Conditions</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Cookies</Link></li>
               </ul>
             </div>
 

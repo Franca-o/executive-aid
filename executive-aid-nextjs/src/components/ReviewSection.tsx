@@ -71,7 +71,7 @@ export default function ReviewsSection() {
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="p-6">
-            <div className="text-4xl font-bold text-indigo-900 mb-2">10+</div>
+            <div className="text-4xl font-bold text-indigo-900 mb-2"></div>
             <div className="text-gray-600">Clients</div>
           </div>
           
@@ -94,7 +94,7 @@ export default function ReviewsSection() {
           </div>
 
           <div className="p-6">
-            <div className="text-4xl font-bold text-indigo-900 mb-2">10+</div>
+            <div className="text-4xl font-bold text-indigo-900 mb-2"></div>
             <div className="text-gray-600">Virtual Assistants</div>
           </div>
         </div>

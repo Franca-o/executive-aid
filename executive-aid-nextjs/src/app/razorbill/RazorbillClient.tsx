@@ -163,7 +163,7 @@ export default function RazorbillClient() {
                 <li><Link href="/web-solutions#research-and-data-analytics" className="hover:text-white transition"> Research and Data Analytics</Link></li>
                 <li><Link href="/web-solutions#calendar-management" className="hover:text-white transition"> Administrative Assistance</Link></li>
                 <li><Link href="/web-solutions#digital-marketing-campaign" className="hover:text-white transition"> Digital Marketing</Link></li>
-                <li><Link href="/web-solutions" className="hover:text-white transition">Razorbill Technologies (Custom Web Solutions)</Link></li>
+                <li><Link href="https://razorbilltechnologies.com/" className="hover:text-white transition">Razorbill Technologies (Custom Web Solutions)</Link></li>
              
               </ul>
             </div>
@@ -172,11 +172,8 @@ export default function RazorbillClient() {
               <h4 className="font-bold mb-4">Resources & Policies</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/about#faq" className="hover:text-white transition">FAQ</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Blogs/Insights</Link></li>
                 <li><Link href="/policies/privacy-policy" className="hover:text-white transition">Privacy Policy</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Data Protection Policy</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Terms & Conditions</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Cookies</Link></li>
+                
               </ul>
             </div>
 

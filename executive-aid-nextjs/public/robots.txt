@@ -11,3 +11,5 @@ Sitemap: https://executiveaid.org/sitemap.xml
 Allow: /about
 Allow: /services
 Allow: /web-solutions 
+Allow: /credentials
+Allow: /portfolio

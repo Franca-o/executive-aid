@@ -86,11 +86,11 @@ export const HireVAModal = ({ isOpen, onClose }: HireVAModalProps) => {
             >
               <option value="">SELECT SERVICE NEEDED</option>
               <option value="financial-management">Financial Management</option>
-              <option value="custom-web-app">Custom web/App solutions</option>
+              <option value="custom-web-app">Professional Website Development</option>
               <option value="project-management">Project management</option>
               <option value="research-analytics">Research and Data Analytics</option>
               <option value="digital-marketing">Digital marketing</option>
-              <option value="admin-assistance">Admin assistance</option>
+              <option value="admin-assistance">Administrative assistance</option>
             </select>
             <ValidationError prefix="Service" field="service" errors={state.errors} className="text-red-600 text-xs md:text-sm" />
             

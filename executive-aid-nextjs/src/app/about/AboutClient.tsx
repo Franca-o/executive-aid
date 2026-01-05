@@ -30,6 +30,7 @@ interface TeamMember {
   role: string;
   image: string;
   skills: string[];
+  linkedin?: string;
 }
 
 export default function AboutClient() {
@@ -97,24 +98,21 @@ export default function AboutClient() {
 
   const teamMembers: TeamMember[] = [
     {
-      name: "Jeffery Amasa Crentsil",
-      role: "Director, Technology",
-      image: "/images/jeff1.jpg",
-      skills:[]
+      name: "Emmanuel Mprah",
+      role: "Managing Director",
+      image: "/images/ebo1.png",
+      skills:[],
+      linkedin: 'https://www.linkedin.com/in/emmanuel-mprah-737b61238?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app'
     },
     {
       name: "Winston Nene Sackey",
-      role: "Director, Finance",
+      role: "Executive Director",
       image: "/images/winston.jpg",
-      skills: []
-    },
-    {
-      name: "Francisca Osei",
-      role: "Director, Operations",
-      image: "/images/profile.png", // Replace with actual image path
       skills: []
     }
   ];
+
+  const founder = teamMembers.find(m => m.name === 'Emmanuel Mprah');
 
   return (
     <div className="font-mono">
@@ -155,7 +153,15 @@ export default function AboutClient() {
                     </div>
                     <div className="mt-4 px-2 text-center">
                       <p className="text-base text-gray-900 font-bold">Emmanuel Mprah</p>
-                      <p className="text-base text-gray-900">Founder & Managing Director</p>
+                      <p className="text-base text-gray-900">Founder</p>
+                      {founder?.linkedin && (
+                        <div className="mt-2">
+                          <Link href={founder.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-indigo-700 hover:underline">
+                            <Linkedin className="w-4 h-4 mr-2" />
+                            <span>LinkedIn</span>
+                          </Link>
+                        </div>
+                      )}
                     </div>
                     </div>
                   {/* Text Container */}
@@ -353,11 +359,11 @@ export default function AboutClient() {
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
               Meet the Management
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our leadership team brings together expertise in finance, technology, and operations to deliver exceptional solutions for executives and businesses.
-            </p>
+           {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+             Our leadership team brings together expertise in finance, technology, and operations to deliver exceptional solutions for executives and businesses.
+            </p> */}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {teamMembers.map((member, index) => (
               <div key={index} className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow">
                 <div className="flex flex-col items-center text-center">
@@ -371,7 +377,8 @@ export default function AboutClient() {
                     />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-indigo-900 font-semibold mb-3">{member.role}</p>
+                  <p className="text-indigo-900 font-semibold mb-2">{member.role}</p>
+                  {/* LinkedIn shown only in Our Story for the founder */}
                 </div>
               </div>
             ))}
@@ -477,7 +484,7 @@ export default function AboutClient() {
                 <li><Link href="/web-solutions#research-and-data-analytics" className="hover:text-white transition"> Research and Data Analytics</Link></li>
                 <li><Link href="/web-solutions#calendar-management" className="hover:text-white transition"> Administrative Assistance</Link></li>
                 <li><Link href="/web-solutions#digital-marketing-campaign" className="hover:text-white transition"> Digital Marketing</Link></li>
-                <li><Link href="/web-solutions" className="hover:text-white transition">Razorbill Technologies (Custom Web Solutions)</Link></li>
+                <li><Link href="https://razorbilltechnologies.com/" className="hover:text-white transition">Razorbill Technologies (Custom Web Solutions)</Link></li>
              
               </ul>
             </div>
@@ -486,11 +493,7 @@ export default function AboutClient() {
               <h4 className="font-bold mb-4">Resources & Policies</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/about#faq" className="hover:text-white transition">FAQ</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Blogs/Insights</Link></li>
                 <li><Link href="/policies/privacy-policy" className="hover:text-white transition">Privacy Policy</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Data Protection Policy</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Terms & Conditions</Link></li>
-                <li><Link href="/" className="hover:text-white transition">Cookies</Link></li>
               </ul>
             </div>
 

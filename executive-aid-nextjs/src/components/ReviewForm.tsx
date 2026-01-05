@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Star, Send, X } from 'lucide-react';
 import type { ReviewInsert } from '@/lib/supabase';
 
@@ -11,19 +11,12 @@ interface ReviewFormProps {
 }
 
 const services = [
-  'Administrative Support',
-  'Brand Growth & Social Media Management',
-  'Financial Management Assistance',
-  'Document Management',
-  'Email Management',
-  'Calendar & Scheduling',
-  'Content Creation',
-  'Data Entry',
+  'Financial Management',
+  'Administrative Assistance',
   'Digital Marketing',
   'Project Management',
-  'Research Services',
-  'Professional Business Website',
-  'Other'
+  'Research and Data Analytics Services',
+  'Professional Website Development',
 ];
 
 export default function ReviewForm({ isOpen = true, onClose, standalone = false }: ReviewFormProps) {
@@ -34,6 +27,8 @@ export default function ReviewForm({ isOpen = true, onClose, standalone = false 
     rating: 0,
     comment: ''
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [hoverRating, setHoverRating] = useState(0);
@@ -58,22 +53,64 @@ export default function ReviewForm({ isOpen = true, onClose, standalone = false 
 
       const { supabase } = await import('@/lib/supabase');
 
-      const { error } = await supabase
-        .from('executive_aid_reviews')
-        .insert([{
-          client_name: formData.client_name,
-          email: formData.email,
-          service_type: formData.service_type,
-          rating: formData.rating,
-          comment: formData.comment,
-          approved: false
-        }]);
+      // If an image was provided, upload it to Supabase Storage first
+      let imageUrl: string | null = null;
+      if (imageFile) {
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `reviews/${Date.now()}_${Math.random().toString(36).slice(2)}.${fileExt}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('review-images')
+          .upload(fileName, imageFile, { cacheControl: '3600', upsert: false });
 
-      if (error) {
-        console.error('Error inserting review:', error);
+        if (uploadError) {
+          console.error('Error uploading image:', uploadError);
+          setSubmitStatus('error');
+          setIsSubmitting(false);
+          return;
+        }
+
+        const { data: publicData } = supabase.storage.from('review-images').getPublicUrl(uploadData.path || fileName);
+        imageUrl = publicData?.publicUrl || null;
+      }
+
+      // Build insert payload, include image_url only if available
+      const payload: any = {
+        client_name: formData.client_name,
+        email: formData.email,
+        service_type: formData.service_type,
+        rating: formData.rating,
+        comment: formData.comment,
+        approved: false
+      };
+
+      if (imageUrl) payload.image_url = imageUrl;
+
+      // Try inserting with image_url if present; if the DB rejects unknown column, retry without it
+      let insertResult = await supabase.from('executive_aid_reviews').insert([payload]);
+      if (insertResult.error && imageUrl) {
+        console.warn('Insert with image_url failed, retrying without image_url:', insertResult.error);
+        const { error: retryError } = await supabase
+          .from('executive_aid_reviews')
+          .insert([{
+            client_name: formData.client_name,
+            email: formData.email,
+            service_type: formData.service_type,
+            rating: formData.rating,
+            comment: formData.comment,
+            approved: false
+          }]);
+
+        if (retryError) {
+          console.error('Error inserting review (retry):', retryError);
+          setSubmitStatus('error');
+          return;
+        }
+      } else if (insertResult.error) {
+        console.error('Error inserting review:', insertResult.error);
         setSubmitStatus('error');
         return;
       }
+
 
       setSubmitStatus('success');
       setFormData({
@@ -83,6 +120,8 @@ export default function ReviewForm({ isOpen = true, onClose, standalone = false 
         rating: 0,
         comment: ''
       });
+      setImageFile(null);
+      setImagePreview(null);
         setTimeout(() => {
           if (onClose) {
             onClose();
@@ -104,6 +143,28 @@ export default function ReviewForm({ isOpen = true, onClose, standalone = false 
       [name]: value
     }));
   };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (!file) return;
+    setImageFile(file);
+    const preview = URL.createObjectURL(file);
+    setImagePreview(preview);
+  };
+
+  const removeImage = () => {
+    setImageFile(null);
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+      setImagePreview(null);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview);
+    };
+  }, [imagePreview]);
 
   const handleRatingClick = (rating: number) => {
     setFormData(prev => ({
@@ -180,6 +241,36 @@ export default function ReviewForm({ isOpen = true, onClose, standalone = false 
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="your@email.com"
               />
+            </div>
+
+            {/* Image (Optional) */}
+            <div>
+              <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
+                Your Image (Optional)
+              </label>
+              <input
+                id="image"
+                name="image"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="w-full text-sm text-gray-600"
+              />
+              {imagePreview && (
+                <div className="mt-2 flex items-start space-x-3">
+                  <img src={imagePreview} alt="preview" className="h-24 w-24 object-cover rounded-md border" />
+                  <div>
+                    <p className="text-sm text-gray-600">Preview</p>
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="mt-2 inline-flex items-center px-2 py-1 text-sm bg-red-100 text-red-700 rounded"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Service */}
