@@ -74,7 +74,7 @@ export default function ReviewForm({ isOpen = true, onClose, standalone = false 
       }
 
       // Build insert payload, include image_url only if available
-      const payload: any = {
+      const payload: ReviewInsert & { approved: boolean; image_url?: string } = {
         client_name: formData.client_name,
         email: formData.email,
         service_type: formData.service_type,
@@ -86,7 +86,7 @@ export default function ReviewForm({ isOpen = true, onClose, standalone = false 
       if (imageUrl) payload.image_url = imageUrl;
 
       // Try inserting with image_url if present; if the DB rejects unknown column, retry without it
-      let insertResult = await supabase.from('executive_aid_reviews').insert([payload]);
+      const insertResult = await supabase.from('executive_aid_reviews').insert([payload]);
       if (insertResult.error && imageUrl) {
         console.warn('Insert with image_url failed, retrying without image_url:', insertResult.error);
         const { error: retryError } = await supabase
